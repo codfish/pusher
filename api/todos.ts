@@ -6,12 +6,7 @@ export default async function handler(
 ) {
   if (!request.url) return response.status(400);
 
-  const url = new URL(request.url, `http://${request.headers.host}`);
-  const { searchParams } = url;
-  const hasTitle = searchParams.has('title');
-  const title = hasTitle
-    ? searchParams.get('title')?.slice(0, 100)
-    : 'My default title';
+  const todos = [{title: 'Todo 1', id: '1' }, {title: 'Todo 2', id: '2'}];
 
-  return response.status(200).json({ title });
+  return response.status(200).json(todos);
 }

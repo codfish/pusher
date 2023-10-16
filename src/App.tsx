@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+interface Todo {
+  id: number;
+  title: string;
+}
+
 const App = () => {
-  const [data, setData] = useState<{ message: string }>({
-    message: "No data found.",
-  });
+  const [todos, setTodos] = useState<Array<Todo>>([]);
 
   useEffect(() => {
-    setInterval(() => {
-      setData({
-        message: `Data updated at ${new Date().toLocaleTimeString()}`,
-      });
-    }, 3456);
+    async function fetchData() {
+      const res = await fetch("/api/todos");
+      const data = await res.json();
+      setTodos(data);
+    }
+
+    fetchData();
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>Real Time Update POC</p>
-        <div>{data.message}</div>
+        <h1>Real Time Update POC</h1>
       </header>
+
+      {todos.map((todo) => (
+        <h3 key={todo.id}>{todo.title}</h3>
+      ))}
     </div>
   );
 };
