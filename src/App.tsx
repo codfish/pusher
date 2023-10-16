@@ -5,13 +5,13 @@ import "./App.css";
 const App = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("/api/todos");
-      const data = await res.json();
-      setTodos(data);
-    }
+  async function fetchData() {
+    const res = await fetch("/api/todos");
+    const data = await res.json();
+    setTodos(data);
+  }
 
+  useEffect(() => {
     fetchData();
   }, []);
 
