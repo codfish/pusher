@@ -29,7 +29,7 @@ const App = () => {
     e.preventDefault();
     e.currentTarget.submitBtn.disabled = true;
 
-    const res = await fetch('/api/todos', {
+    await fetch('/api/todos', {
       method: 'POST',
       body: JSON.stringify({
         task: e.currentTarget.task.value,
@@ -39,8 +39,10 @@ const App = () => {
         'Content-Type': 'application/json',
       },
     });
-    const data = await res.json();
-    setTodos([{ ...data, id: todos.length + 1000 }, ...todos]);
+
+    // If the request was successful, update the state or refetch the todos
+    const data = await fetchTodos();
+    setTodos(data);
 
     // @ts-ignore
     e.target.submitBtn.disabled = false;
