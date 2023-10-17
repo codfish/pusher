@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sql } from '@vercel/postgres';
-// import { Todo } from "../types";
+import { pusher  } from '../_utils.js';
+// import { Todo } from '../types';
 
 async function get(req: VercelRequest, res: VercelResponse) {
   const { rows } = await sql`SELECT * FROM todos ORDER BY date DESC;`;
@@ -10,6 +11,8 @@ async function get(req: VercelRequest, res: VercelResponse) {
 
 async function create(req: VercelRequest, res: VercelResponse) {
   await sql`INSERT INTO todos (task, done, who) VALUES (${req.body.task}, false, ${req.body.who});`;
+
+  await pusher.trigger('todos', 'updated', req.body);
 
   return res.status(200).json(req.body);
 }
