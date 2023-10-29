@@ -20,11 +20,7 @@ async function deleteTodo(req: VercelRequest, res: VercelResponse) {
   return res.status(202).send('');
 }
 
-export default function handler(
-  req: VercelRequest,
-  res: VercelResponse,
-) {
-
+export default function handler(req: VercelRequest, res: VercelResponse) {
   if (!req.url) return res.status(400);
 
   if (req.method === 'PATCH') {
